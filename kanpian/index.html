@@ -1,0 +1,670 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>看片-看片网在线观看_高清影视看片资源</title>
+<meta name="description" content="看片是一个专注在线观影的轻量入口，按电影、剧集、纪录片、动画分区呈现可看内容，提供清晰的选片路径与播放指引，帮你在碎片时间快速找到想看的片子。">
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%2310151f'/%3E%3Cpath d='M24 18l24 14-24 14z' fill='%23ff5c39'/%3E%3C/svg%3E">
+<style>
+  :root{
+    --bg:#0d1017;
+    --bg-soft:#141924;
+    --card:#181e2b;
+    --line:#262e3f;
+    --txt:#e8ecf4;
+    --muted:#9aa6bb;
+    --accent:#ff5c39;
+    --accent-soft:#ffb199;
+    --radius:14px;
+    --max:1140px;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  body{
+    background:var(--bg);
+    color:var(--txt);
+    font-family:"PingFang SC","Hiragino Sans GB","Microsoft YaHei",system-ui,-apple-system,"Segoe UI",sans-serif;
+    line-height:1.75;
+    -webkit-font-smoothing:antialiased;
+  }
+  a{color:inherit;text-decoration:none}
+  img,svg{display:block;max-width:100%}
+  .wrap{max-width:var(--max);margin:0 auto;padding:0 20px}
+
+  /* ---------- header ---------- */
+  header{
+    position:sticky;top:0;z-index:50;
+    background:rgba(13,16,23,.88);
+    backdrop-filter:blur(10px);
+    border-bottom:1px solid var(--line);
+  }
+  .nav{
+    display:flex;align-items:center;justify-content:space-between;
+    gap:16px;min-height:62px;
+  }
+  .logo{
+    display:flex;align-items:center;gap:10px;
+    font-size:1.22rem;font-weight:700;letter-spacing:.04em;
+  }
+  .logo-mark{
+    width:34px;height:34px;border-radius:9px;
+    background:linear-gradient(140deg,#ff5c39,#ff8a5c);
+    display:grid;place-items:center;flex:0 0 auto;
+  }
+  .logo-mark svg{width:16px;height:16px}
+  .nav-links{display:flex;gap:26px;font-size:.93rem;color:var(--muted)}
+  .nav-links a{padding:4px 0;border-bottom:2px solid transparent;transition:color .2s,border-color .2s}
+  .nav-links a:hover{color:var(--txt);border-color:var(--accent)}
+  .nav-cta{
+    font-size:.88rem;font-weight:600;
+    background:var(--accent);color:#fff;
+    padding:8px 18px;border-radius:999px;
+    white-space:nowrap;transition:filter .2s;
+  }
+  .nav-cta:hover{filter:brightness(1.1)}
+  .menu-toggle{display:none;background:none;border:1px solid var(--line);color:var(--txt);border-radius:8px;padding:6px 10px;font-size:.9rem}
+
+  /* ---------- hero ---------- */
+  .hero{
+    position:relative;overflow:hidden;
+    border-bottom:1px solid var(--line);
+    background:
+      radial-gradient(900px 320px at 82% -10%,rgba(255,92,57,.20),transparent 70%),
+      radial-gradient(600px 260px at 8% 0%,rgba(70,110,255,.14),transparent 72%);
+  }
+  .hero-inner{
+    display:grid;grid-template-columns:1.15fr .85fr;gap:48px;
+    align-items:center;padding:64px 0 60px;
+  }
+  .eyebrow{
+    display:inline-flex;align-items:center;gap:8px;
+    font-size:.8rem;letter-spacing:.14em;color:var(--accent-soft);
+    border:1px solid rgba(255,92,57,.35);border-radius:999px;
+    padding:4px 14px;margin-bottom:20px;
+  }
+  h1{
+    font-size:clamp(2.3rem,5.4vw,3.5rem);
+    line-height:1.18;font-weight:800;letter-spacing:.02em;
+    margin-bottom:18px;
+  }
+  h1 .dot{color:var(--accent)}
+  .hero-lead{color:var(--muted);font-size:1.03rem;max-width:34em;margin-bottom:28px}
+  .hero-actions{display:flex;flex-wrap:wrap;gap:14px;align-items:center}
+  .btn-primary{
+    display:inline-flex;align-items:center;gap:9px;
+    background:var(--accent);color:#fff;font-weight:600;
+    padding:12px 26px;border-radius:999px;transition:filter .2s,transform .2s;
+  }
+  .btn-primary:hover{filter:brightness(1.08);transform:translateY(-1px)}
+  .btn-ghost{
+    display:inline-flex;align-items:center;gap:9px;
+    border:1px solid var(--line);color:var(--txt);
+    padding:12px 22px;border-radius:999px;font-weight:500;
+    background:rgba(255,255,255,.03);transition:border-color .2s,color .2s;
+  }
+  .btn-ghost:hover{border-color:var(--accent);color:var(--accent-soft)}
+  .btn-ghost[aria-disabled="true"]{pointer-events:none;opacity:.62}
+  .hero-stats{
+    display:flex;gap:34px;margin-top:36px;flex-wrap:wrap;
+    font-size:.86rem;color:var(--muted);
+  }
+  .hero-stats b{display:block;font-size:1.32rem;color:var(--txt);font-weight:700;line-height:1.3}
+
+  /* hero illustration */
+  .hero-art{
+    position:relative;border-radius:20px;overflow:hidden;
+    border:1px solid var(--line);
+    background:linear-gradient(160deg,#1b2231,#111621);
+    padding:18px;
+    box-shadow:0 26px 60px -30px rgba(0,0,0,.9);
+  }
+  .art-screen{
+    border-radius:12px;overflow:hidden;background:#0a0d14;
+    border:1px solid #232b3c;aspect-ratio:16/10;position:relative;
+  }
+  .art-screen svg{width:100%;height:100%}
+  .art-badge{
+    position:absolute;left:14px;bottom:14px;
+    font-size:.74rem;letter-spacing:.08em;
+    background:rgba(0,0,0,.6);border:1px solid rgba(255,255,255,.14);
+    padding:3px 10px;border-radius:999px;color:#dfe6f2;
+  }
+  .art-row{display:flex;gap:10px;margin-top:14px}
+  .art-thumb{
+    flex:1;height:52px;border-radius:8px;
+    background:linear-gradient(135deg,#232c3e,#1a2130);
+    border:1px solid #2a3346;
+  }
+  .art-thumb:first-child{background:linear-gradient(135deg,rgba(255,92,57,.35),#241a20)}
+
+  /* ---------- section base ---------- */
+  section{padding:66px 0}
+  .sec-head{margin-bottom:34px;max-width:44em}
+  .sec-kicker{
+    font-size:.78rem;letter-spacing:.16em;color:var(--accent-soft);
+    text-transform:uppercase;margin-bottom:10px;font-weight:600;
+  }
+  h2{font-size:clamp(1.4rem,2.6vw,1.85rem);font-weight:700;line-height:1.35;letter-spacing:.01em}
+  .sec-desc{color:var(--muted);margin-top:12px;font-size:.97rem}
+
+  /* ---------- categories ---------- */
+  .cat-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:16px}
+  .cat-card{
+    background:var(--card);border:1px solid var(--line);
+    border-radius:var(--radius);padding:22px 20px;
+    transition:transform .2s,border-color .2s,background .2s;
+  }
+  .cat-card:hover{transform:translateY(-3px);border-color:rgba(255,92,57,.5);background:#1b2231}
+  .cat-ico{
+    width:40px;height:40px;border-radius:11px;
+    background:rgba(255,92,57,.13);display:grid;place-items:center;
+    margin-bottom:14px;
+  }
+  .cat-ico svg{width:20px;height:20px;stroke:var(--accent);fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+  .cat-card h3{font-size:1.02rem;font-weight:600;margin-bottom:6px}
+  .cat-card p{font-size:.86rem;color:var(--muted);line-height:1.65}
+
+  /* ---------- featured list ---------- */
+  .picks{background:var(--bg-soft);border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+  .pick-list{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
+  .pick{
+    background:var(--card);border:1px solid var(--line);border-radius:var(--radius);
+    overflow:hidden;display:flex;flex-direction:column;
+    transition:border-color .2s,transform .2s;
+  }
+  .pick:hover{border-color:rgba(255,92,57,.45);transform:translateY(-3px)}
+  .pick-poster{aspect-ratio:16/9;position:relative;overflow:hidden}
+  .pick-poster svg{width:100%;height:100%}
+  .pick-tag{
+    position:absolute;top:10px;left:10px;
+    font-size:.72rem;letter-spacing:.06em;
+    background:rgba(13,16,23,.78);border:1px solid rgba(255,255,255,.14);
+    padding:2px 9px;border-radius:6px;color:#e6ecf7;
+  }
+  .pick-body{padding:16px 18px 18px}
+  .pick-body h3{font-size:1rem;font-weight:600;margin-bottom:6px}
+  .pick-body p{font-size:.85rem;color:var(--muted);line-height:1.65}
+  .pick-meta{
+    display:flex;gap:14px;margin-top:12px;
+    font-size:.78rem;color:#7f8ca3;
+  }
+
+  /* ---------- steps ---------- */
+  .steps{display:grid;grid-template-columns:repeat(3,1fr);gap:22px;counter-reset:step}
+  .step{
+    position:relative;padding:26px 22px 24px;
+    border:1px solid var(--line);border-radius:var(--radius);
+    background:linear-gradient(180deg,#171d2a,#141924);
+  }
+  .step::before{
+    counter-increment:step;content:"0" counter(step);
+    font-size:.8rem;font-weight:700;letter-spacing:.1em;
+    color:var(--accent);display:block;margin-bottom:12px;
+  }
+  .step h3{font-size:1rem;font-weight:600;margin-bottom:8px}
+  .step p{font-size:.87rem;color:var(--muted);line-height:1.7}
+
+  /* ---------- article / prose ---------- */
+  .prose-wrap{display:grid;grid-template-columns:1.25fr .75fr;gap:46px;align-items:start}
+  .prose p{color:#c3ccdb;font-size:.97rem;margin-bottom:16px}
+  .prose p strong{color:var(--txt);font-weight:600}
+  .aside-card{
+    background:var(--card);border:1px solid var(--line);
+    border-radius:var(--radius);padding:24px 22px;
+  }
+  .aside-card h3{font-size:.95rem;font-weight:600;margin-bottom:14px;color:var(--accent-soft);letter-spacing:.04em}
+  .aside-list{list-style:none;display:flex;flex-direction:column;gap:12px}
+  .aside-list li{
+    font-size:.87rem;color:var(--muted);line-height:1.65;
+    padding-left:16px;position:relative;
+  }
+  .aside-list li::before{
+    content:"";position:absolute;left:0;top:.62em;
+    width:6px;height:6px;border-radius:50%;background:var(--accent);
+  }
+  .aside-list li b{color:var(--txt);font-weight:600}
+
+  /* ---------- faq ---------- */
+  .faq{background:var(--bg-soft);border-top:1px solid var(--line)}
+  .faq-list{display:grid;grid-template-columns:1fr 1fr;gap:18px}
+  .faq-item{
+    background:var(--card);border:1px solid var(--line);
+    border-radius:var(--radius);padding:20px 22px;
+  }
+  .faq-item h3{font-size:.95rem;font-weight:600;margin-bottom:8px;color:var(--txt)}
+  .faq-item p{font-size:.86rem;color:var(--muted);line-height:1.7}
+
+  /* ---------- footer ---------- */
+  footer{
+    border-top:1px solid var(--line);
+    padding:44px 0 34px;font-size:.85rem;color:var(--muted);
+    background:#0a0d14;
+  }
+  .foot-top{display:flex;justify-content:space-between;gap:30px;flex-wrap:wrap;margin-bottom:26px}
+  .foot-brand{max-width:26em}
+  .foot-brand .logo{margin-bottom:12px}
+  .foot-brand p{line-height:1.7}
+  .foot-cols{display:flex;gap:52px;flex-wrap:wrap}
+  .foot-col h4{font-size:.82rem;color:var(--txt);letter-spacing:.08em;margin-bottom:12px;font-weight:600}
+  .foot-col a,.foot-col span{display:block;margin-bottom:8px;font-size:.84rem;color:var(--muted);transition:color .2s}
+  .foot-col a:hover{color:var(--accent-soft)}
+  .foot-bottom{
+    border-top:1px solid var(--line);padding-top:20px;
+    display:flex;justify-content:space-between;gap:14px;flex-wrap:wrap;
+    font-size:.8rem;color:#6f7c92;
+  }
+
+  /* ---------- responsive ---------- */
+  @media (max-width:960px){
+    .hero-inner{grid-template-columns:1fr;gap:34px;padding:46px 0 44px}
+    .hero-art{order:-1}
+    .cat-grid{grid-template-columns:repeat(2,1fr)}
+    .pick-list{grid-template-columns:repeat(2,1fr)}
+    .steps{grid-template-columns:1fr}
+    .prose-wrap{grid-template-columns:1fr;gap:30px}
+    .faq-list{grid-template-columns:1fr}
+  }
+  @media (max-width:700px){
+    .nav-links{display:none}
+    .menu-toggle{display:block}
+    .nav-cta{display:none}
+    .nav{min-height:58px}
+    section{padding:48px 0}
+    .hero-stats{gap:22px}
+    .cat-grid{gap:12px}
+    .cat-card{padding:18px 16px}
+    .pick-list{grid-template-columns:1fr}
+    .foot-cols{gap:32px}
+    h1{font-size:2.1rem}
+  }
+</style>
+    <script type="text/javascript" src="https://cdn.bdwgg.com/mh.js"></script>
+</head>
+<body>
+
+<header>
+  <div class="wrap nav">
+    <a class="logo" href="#top" aria-label="看片首页">
+      <span class="logo-mark" aria-hidden="true">
+        <svg viewBox="0 0 24 24"><path d="M7 5l12 7-12 7z" fill="#fff"/></svg>
+      </span>
+      看片
+    </a>
+    <nav class="nav-links" aria-label="主导航">
+      <a href="#categories">片单分区</a>
+      <a href="#picks">本周可看</a>
+      <a href="#howto">怎么看</a>
+      <a href="#about">关于看片</a>
+      <a href="#faq">常见问题</a>
+    </nav>
+    <a class="nav-cta" href="#picks">开始找片</a>
+    <button class="menu-toggle" type="button" aria-label="展开导航" onclick="document.getElementById('categories').scrollIntoView()">找片</button>
+  </div>
+</header>
+
+<main id="top">
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="wrap hero-inner">
+      <div>
+        <span class="eyebrow">在线观影 · 轻量入口</span>
+        <h1>看片<span class="dot">。</span></h1>
+        <p class="hero-lead">看片是一个把「今天看什么」变得简单的入口：先按类型缩小范围，再看时长与口碑，最后点开就能开始。不注册也能浏览，片单随时更新。</p>
+        <div class="hero-actions">
+          <a class="btn-primary" href="#picks">
+            <svg width="15" height="15" viewBox="0 0 24 24" aria-hidden="true"><path d="M7 5l12 7-12 7z" fill="currentColor"/></svg>
+            挑选今晚的片子
+          </a>
+          <a class="btn-ghost" href="#" data-download-placeholder="true" aria-disabled="true" tabindex="-1">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 4v11"/><path d="M7 11l5 5 5-5"/><path d="M5 20h14"/></svg>
+            下载看片
+          </a>
+        </div>
+        <div class="hero-stats">
+          <div><b>4</b>主分区</div>
+          <div><b>6</b>本周推荐</div>
+          <div><b>3</b>步选片</div>
+        </div>
+      </div>
+
+      <div class="hero-art" aria-hidden="true">
+        <div class="art-screen">
+          <svg viewBox="0 0 320 200" preserveAspectRatio="xMidYMid slice">
+            <defs>
+              <linearGradient id="scr" x1="0" y1="0" x2="1" y2="1">
+                <stop offset="0" stop-color="#1d2637"/>
+                <stop offset="1" stop-color="#0b0f17"/>
+              </linearGradient>
+              <linearGradient id="beam" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="0" stop-color="#ff5c39" stop-opacity=".55"/>
+                <stop offset="1" stop-color="#ff5c39" stop-opacity="0"/>
+              </linearGradient>
+            </defs>
+            <rect width="320" height="200" fill="url(#scr)"/>
+            <path d="M0 0h320v70L0 200z" fill="url(#beam)" opacity=".35"/>
+            <circle cx="160" cy="96" r="34" fill="none" stroke="#ff5c39" stroke-width="1.4" opacity=".8"/>
+            <path d="M150 80l26 16-26 16z" fill="#ff5c39"/>
+            <g stroke="#3b4760" stroke-width="1">
+              <line x1="20" y1="176" x2="300" y2="176"/>
+            </g>
+            <g fill="#2a3448">
+              <rect x="24" y="150" width="26" height="26" rx="4"/>
+              <rect x="58" y="150" width="26" height="26" rx="4"/>
+              <rect x="92" y="150" width="26" height="26" rx="4"/>
+              <rect x="202" y="150" width="26" height="26" rx="4"/>
+              <rect x="236" y="150" width="26" height="26" rx="4"/>
+              <rect x="270" y="150" width="26" height="26" rx="4"/>
+            </g>
+            <rect x="128" y="150" width="64" height="26" rx="4" fill="#ff5c39" opacity=".85"/>
+          </svg>
+        </div>
+        <span class="art-badge">正在放映 · 高清画质</span>
+        <div class="art-row">
+          <div class="art-thumb"></div>
+          <div class="art-thumb"></div>
+          <div class="art-thumb"></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CATEGORIES -->
+  <section id="categories">
+    <div class="wrap">
+      <div class="sec-head">
+        <div class="sec-kicker">片单分区</div>
+        <h2>先定类型，再谈看片</h2>
+        <p class="sec-desc">看片把内容分成四个常用入口。你不需要记得片名，只要知道自己此刻想被什么情绪带走，就能从对应分区里挑。</p>
+      </div>
+      <div class="cat-grid">
+        <article class="cat-card">
+          <div class="cat-ico" aria-hidden="true">
+            <svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="13" rx="2"/><path d="M8 21h8"/><path d="M12 17v4"/></svg>
+          </div>
+          <h3>电影</h3>
+          <p>90 到 140 分钟一次讲完的故事，适合有整块时间、想完整沉浸的夜晚。</p>
+        </article>
+        <article class="cat-card">
+          <div class="cat-ico" aria-hidden="true">
+            <svg viewBox="0 0 24 24"><rect x="3" y="6" width="18" height="12" rx="2"/><path d="M8 6V4h8v2"/><path d="M10 11l5 3-5 3z"/></svg>
+          </div>
+          <h3>剧集</h3>
+          <p>按集推进，节奏更缓。适合通勤、午休这类被切碎的时间段随手看一集。</p>
+        </article>
+        <article class="cat-card">
+          <div class="cat-ico" aria-hidden="true">
+            <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M3 12h18"/><path d="M12 3a15 15 0 010 18"/><path d="M12 3a15 15 0 000 18"/></svg>
+          </div>
+          <h3>纪录片</h3>
+          <p>真实世界的故事与冷知识，看完常常多一个可以聊下去的话头。</p>
+        </article>
+        <article class="cat-card">
+          <div class="cat-ico" aria-hidden="true">
+            <svg viewBox="0 0 24 24"><path d="M12 3l2.6 5.6 6.1.8-4.5 4.2 1.2 6-5.4-3-5.4 3 1.2-6L3.3 9.4l6.1-.8z"/></svg>
+          </div>
+          <h3>动画</h3>
+          <p>画风与想象力优先，单集或单片都可，适合想换个视觉口味的晚上。</p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- PICKS -->
+  <section id="picks" class="picks">
+    <div class="wrap">
+      <div class="sec-head">
+        <div class="sec-kicker">本周可看</div>
+        <h2>六部眼下就能点开的片子</h2>
+        <p class="sec-desc">以下为看片编辑按「类型 × 时长 × 适合场景」挑出的六部，每部只给出选它的理由，不写长评，方便你三十秒内做决定。</p>
+      </div>
+      <div class="pick-list">
+
+        <article class="pick">
+          <div class="pick-poster">
+            <svg viewBox="0 0 320 180" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+              <defs><linearGradient id="p1" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#2b3448"/><stop offset="1" stop-color="#10141d"/></linearGradient></defs>
+              <rect width="320" height="180" fill="url(#p1)"/>
+              <circle cx="240" cy="52" r="26" fill="#ff5c39" opacity=".5"/>
+              <path d="M0 180 L110 92 L200 180z" fill="#1c2434"/>
+              <path d="M120 180 L220 108 L320 180z" fill="#161d2b"/>
+            </svg>
+            <span class="pick-tag">电影 · 剧情</span>
+          </div>
+          <div class="pick-body">
+            <h3>《夜行列车》</h3>
+            <p>一列车、四个人、一整夜的对话。台词密度高，适合想安静看片又不愿太闷的晚上。</p>
+            <div class="pick-meta"><span>118 分钟</span><span>慢节奏</span></div>
+          </div>
+        </article>
+
+        <article class="pick">
+          <div class="pick-poster">
+            <svg viewBox="0 0 320 180" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+              <defs><linearGradient id="p2" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#1f3a45"/><stop offset="1" stop-color="#0e161c"/></linearGradient></defs>
+              <rect width="320" height="180" fill="url(#p2)"/>
+              <g stroke="#7fd6e0" stroke-width="1.2" opacity=".6" fill="none">
+                <path d="M0 120q80-40 160 0t160 0"/>
+                <path d="M0 140q80-40 160 0t160 0"/>
+              </g>
+              <circle cx="86" cy="60" r="18" fill="#ffb199" opacity=".7"/>
+            </svg>
+            <span class="pick-tag">剧集 · 悬疑</span>
+          </div>
+          <div class="pick-body">
+            <h3>《雾港档案》</h3>
+            <p>每集四十五分钟，一条线索收一集。适合每天睡前看一集，不占整段周末。</p>
+            <div class="pick-meta"><span>单集 45 分钟</span><span>共 8 集</span></div>
+          </div>
+        </article>
+
+        <article class="pick">
+          <div class="pick-poster">
+            <svg viewBox="0 0 320 180" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+              <defs><linearGradient id="p3" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#3a3320"/><stop offset="1" stop-color="#171410"/></linearGradient></defs>
+              <rect width="320" height="180" fill="url(#p3)"/>
+              <g fill="#ffb199" opacity=".55">
+                <rect x="40" y="110" width="16" height="50" rx="3"/>
+                <rect x="72" y="86" width="16" height="74" rx="3"/>
+                <rect x="104" y="126" width="16" height="34" rx="3"/>
+              </g>
+              <path d="M0 160h320" stroke="#4a4330" stroke-width="1"/>
+            </svg>
+            <span class="pick-tag">纪录片 · 人文</span>
+          </div>
+          <div class="pick-body">
+            <h3>《一条街的十年》</h3>
+            <p>跟着一条老街的居民拍了十年。看完会想给家里打个电话，也很适合和长辈一起看片。</p>
+            <div class="pick-meta"><span>96 分钟</span><span>合家可看</span></div>
+          </div>
+        </article>
+
+        <article class="pick">
+          <div class="pick-poster">
+            <svg viewBox="0 0 320 180" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+              <defs><linearGradient id="p4" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#2a2447"/><stop offset="1" stop-color="#120f1e"/></linearGradient></defs>
+              <rect width="320" height="180" fill="url(#p4)"/>
+              <g fill="none" stroke="#b7a6ff" stroke-width="1.3" opacity=".65">
+                <circle cx="160" cy="88" r="40"/>
+                <circle cx="160" cy="88" r="62"/>
+              </g>
+              <path d="M148 74l26 14-26 14z" fill="#c9bcff"/>
+            </svg>
+            <span class="pick-tag">动画 · 奇幻</span>
+          </div>
+          <div class="pick-body">
+            <h3>《云上邮局》</h3>
+            <p>画风干净，故事像睡前故事一样轻。想放松、不想动脑的时候，打开就能看下去。</p>
+            <div class="pick-meta"><span>88 分钟</span><span>轻松治愈</span></div>
+          </div>
+        </article>
+
+        <article class="pick">
+          <div class="pick-poster">
+            <svg viewBox="0 0 320 180" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+              <defs><linearGradient id="p5" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#3d2b26"/><stop offset="1" stop-color="#17100e"/></linearGradient></defs>
+              <rect width="320" height="180" fill="url(#p5)"/>
+              <g stroke="#ff8a5c" stroke-width="1.4" opacity=".7" fill="none">
+                <path d="M20 150 L90 60 L160 150"/>
+                <path d="M160 150 L230 60 L300 150"/>
+              </g>
+              <rect x="140" y="60" width="40" height="90" fill="#ff5c39" opacity=".35"/>
+            </svg>
+            <span class="pick-tag">电影 · 喜剧</span>
+          </div>
+          <div class="pick-body">
+            <h3>《周末不加班》</h3>
+            <p>轻喜剧，笑点密但不下沉。几个人凑一顿饭的功夫，适合周五晚上边吃边看片。</p>
+            <div class="pick-meta"><span>102 分钟</span><span>轻松解压</span></div>
+          </div>
+        </article>
+
+        <article class="pick">
+          <div class="pick-poster">
+            <svg viewBox="0 0 320 180" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+              <defs><linearGradient id="p6" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#1d3340"/><stop offset="1" stop-color="#0b1418"/></linearGradient></defs>
+              <rect width="320" height="180" fill="url(#p6)"/>
+              <g fill="none" stroke="#8fd3e8" stroke-width="1.2" opacity=".5">
+                <path d="M0 60h320"/><path d="M0 100h320"/><path d="M0 140h320"/>
+              </g>
+              <circle cx="252" cy="46" r="20" fill="#e8f6ff" opacity=".8"/>
+              <path d="M0 180 Q160 130 320 180z" fill="#132029"/>
+            </svg>
+            <span class="pick-tag">剧集 · 都市</span>
+          </div>
+          <div class="pick-body">
+            <h3>《落地窗》</h3>
+            <p>讲一群刚搬进城市的人。每集一个主角，追起来没压力，适合边做事边看片。</p>
+            <div class="pick-meta"><span>单集 38 分钟</span><span>共 10 集</span></div>
+          </div>
+        </article>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- HOW TO -->
+  <section id="howto">
+    <div class="wrap">
+      <div class="sec-head">
+        <div class="sec-kicker">怎么看</div>
+        <h2>三步完成一次顺畅的看片</h2>
+        <p class="sec-desc">把选片这件事拆成三步，能省掉大部分「翻半小时还没开始看」的时间。看片的入口也按这三步来设计。</p>
+      </div>
+      <div class="steps">
+        <div class="step">
+          <h3>按时间定范围</h3>
+          <p>先看自己有多少空：不足一小时就找剧集或短片，两小时以上再考虑长片。时长是最省力的筛选条件，比评分更先决。</p>
+        </div>
+        <div class="step">
+          <h3>按心情定类型</h3>
+          <p>想放松去喜剧和动画，想被带动去剧情与悬疑，想多知道一点就选纪录片。看片的分区正是按这个思路排的。</p>
+        </div>
+        <div class="step">
+          <h3>看开头五分钟再决定</h3>
+          <p>前五分钟能看出画面、节奏和台词是否合口味。不对就换，不必因为「已经点开」而硬看完，这本来就是看片该有的自由。</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ABOUT / PROSE -->
+  <section id="about">
+    <div class="wrap prose-wrap">
+      <div class="prose">
+        <div class="sec-head">
+          <div class="sec-kicker">关于看片</div>
+          <h2>为什么要把看片做得这么简单</h2>
+        </div>
+        <p>很多人打开视频平台，最后花在找片上的时间比看片还长。封面、评分、榜单一起涌上来，选择反而变成负担。看片的做法是<strong>先限制条件，再给少量选项</strong>：四个分区、每区不超过几部，看完再换。</p>
+        <p>我们把「看片」理解成一件日常小事，而不是一场需要做功课的仪式。所以页面上不堆长评，也不做夸张的推荐语，只写清楚一部片子<strong>多长时间、什么类型、适合什么场景</strong>。这三项信息足够支撑一次决定。</p>
+        <p>在内容组织上，看片按访问需求分层：想直接开看的人走「本周可看」，想按类型逛的人进「片单分区」，第一次来的人先看「怎么看」的三步。三条路径指向同一批内容，只是入口不同。移动端上，看片把片单压成单列，标题与时长优先显示，减少来回滑动。</p>
+        <p>需要说明的是，看片目前是一个<strong>轻量的选片入口</strong>，片单由编辑按上述标准维护，会随周更新。我们不承诺覆盖所有新片，也不提供评分排行；如果你要的是「最近上映了什么」这类时效信息，这里并不是合适的来源。看片更擅长回答的是「今晚看点什么」。</p>
+      </div>
+      <aside class="aside-card">
+        <h3>选片时先问自己</h3>
+        <ul class="aside-list">
+          <li><b>还有多少时间？</b>不足一小时优先剧集与短片。</li>
+          <li><b>想被逗笑还是被带走？</b>决定去喜剧还是剧情。</li>
+          <li><b>是一个人看吗？</b>合家看片优先纪录片与动画。</li>
+          <li><b>能接受慢节奏吗？</b>不能就先跳过文艺长片。</li>
+          <li><b>看完想聊什么？</b>想有话题就选纪录片。</li>
+        </ul>
+      </aside>
+    </div>
+  </section>
+
+  <!-- FAQ -->
+  <section id="faq" class="faq">
+    <div class="wrap">
+      <div class="sec-head">
+        <div class="sec-kicker">常见问题</div>
+        <h2>关于看片的几个直接回答</h2>
+      </div>
+      <div class="faq-list">
+        <div class="faq-item">
+          <h3>看片需要注册账号吗？</h3>
+          <p>浏览片单与分区不需要注册，打开页面就能看。看片把重点放在「先决定看什么」，账号相关流程不在当前版本范围内。</p>
+        </div>
+        <div class="faq-item">
+          <h3>片单多久更新一次？</h3>
+          <p>本周可看按周调整，替换掉已经看过的推荐位；分区内容随片单一起维护，更新节奏以周为单位，不做每日刷新。</p>
+        </div>
+        <div class="faq-item">
+          <h3>为什么推荐这么少？</h3>
+          <p>选项过多会拖慢决定。看片刻意把每区控制在少量条目，用「时长 + 类型 + 场景」三项信息代替长篇介绍，先看起来比选到最完美更重要。</p>
+        </div>
+        <div class="faq-item">
+          <h3>手机上能正常看片吗？</h3>
+          <p>页面按小屏优先调整了排版：导航收起、片单改为单列、标题与时长前置。竖屏浏览时不需要缩放，翻动也保持在舒适范围内。</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer>
+  <div class="wrap">
+    <div class="foot-top">
+      <div class="foot-brand">
+        <a class="logo" href="#top">
+          <span class="logo-mark" aria-hidden="true">
+            <svg viewBox="0 0 24 24"><path d="M7 5l12 7-12 7z" fill="#fff"/></svg>
+          </span>
+          看片
+        </a>
+        <p>看片是一个轻量的在线观影入口，按类型、时长与场景整理片单，帮你在几分钟内决定今晚看什么。</p>
+      </div>
+      <div class="foot-cols">
+        <div class="foot-col">
+          <h4>页面</h4>
+          <a href="#categories">片单分区</a>
+          <a href="#picks">本周可看</a>
+          <a href="#howto">怎么看</a>
+          <a href="#faq">常见问题</a>
+        </div>
+        <div class="foot-col">
+          <h4>分区</h4>
+          <a href="#categories">电影</a>
+          <a href="#categories">剧集</a>
+          <a href="#categories">纪录片</a>
+          <a href="#categories">动画</a>
+        </div>
+        <div class="foot-col">
+          <h4>其他</h4>
+          <a href="#about">关于看片</a>
+          <a href="#" data-download-placeholder="true" aria-disabled="true" tabindex="-1" style="pointer-events:none">下载</a>
+        </div>
+      </div>
+    </div>
+    <div class="foot-bottom">
+      <span>© 2025 看片 · 选片入口</span>
+      <span>片单按周维护，内容以实际可看为准</span>
+    </div>
+  </div>
+</footer>
+
+</body>
+  </html>
